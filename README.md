@@ -12,6 +12,11 @@ Install it by executing
 
 `bullseye -p ~/Example.xcodeproj -t ExampleTarget -e "Pods,KIF,etc"`
 
+## TODO
+
+- Add tests to the project
+- Allow multiple targets
+
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/bullseye/fork )
