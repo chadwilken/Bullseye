@@ -4,21 +4,13 @@ TODO: Write a gem description
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install it by executing
 
-    gem 'bullseye'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install bullseye
+    gem install bullseye
 
 ## Usage
 
-TODO: Write usage instructions here
+bullseye -p ~/Example.xcodeproj -t Example -e "Pods,KIF,etc"
 
 ## Contributing
 
