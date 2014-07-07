@@ -10,7 +10,7 @@ Install it by executing
 
 ## Usage
 
-```ruby
+```sh
 bullseye -p ~/Example.xcodeproj -t ExampleTarget -e "Pods,KIF,etc"
 
 flags:
