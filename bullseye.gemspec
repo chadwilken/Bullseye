@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'bullseye/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "bullseye"
+  spec.name          = "project_bullseye"
   spec.version       = Bullseye::VERSION
   spec.authors       = ["Chad Wilken"]
   spec.email         = ["chad.wilken@gmail.com"]
