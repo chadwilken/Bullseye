@@ -1,6 +1,6 @@
 # Bullseye
 
-TODO: Write a gem description
+Bullseye helps you catch missing files in a specific Targer of your XCode Project. Don't let your app get to the store again with missing sources.
 
 ## Installation
 
@@ -10,7 +10,7 @@ Install it by executing
 
 ## Usage
 
-bullseye -p ~/Example.xcodeproj -t Example -e "Pods,KIF,etc"
+`bullseye -p ~/Example.xcodeproj -t ExampleTarget -e "Pods,KIF,etc"`
 
 ## Contributing
 
