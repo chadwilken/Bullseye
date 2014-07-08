@@ -4,34 +4,49 @@ require_relative '../lib/bullseye'
 
 module Bullseye
 
+  def test_target(opts)
+    if !opts.include?(:target)
+      puts "You must specify a target such as -t Target"
+      exit(1)
+    end
+  end
+
+  def test_project(opts)
+    if !opts.include?(:project)
+      puts "You must specify a project such as -p Example.xcodeproj"
+      exit(1)
+    end
+  end
+
+  module_function :test_target, :test_project
+
   options = {}
 
   optparse = OptionParser.new do |opts|
     opts.banner = 'Usage: bullseye -p ~/Example.xcodeproj -t Example -e "Pods,KIF,etc"'
 
-    options[:help] = nil
     opts.on('-h', '--help', 'Display this screen') do
       puts opts
       exit
     end
 
-    options[:project] = nil
     opts.on('-p', '--project PROJECT', 'The XCode Project you would like to check') do |project|
       options[:project] = project
     end
 
-    options[:target] = nil
     opts.on('-t', '--target TARGET', 'Specifies the app target\'s path') do |target|
       options[:target] = target
     end
 
-    options[:exclude] = nil
     opts.on('-e', '--exclude [PATHS]', 'Excludes the specified paths from the search') do |paths|
       options[:exclude] = paths.split(',')
     end
   end
 
   optparse.parse!
+
+  test_project(options)
+  test_target(options)
 
   checker = Checker.new(options)
   @missing = checker.begin

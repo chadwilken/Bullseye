@@ -11,15 +11,15 @@ module Bullseye
       @project_path = @project_path.gsub /\/$/, ''
       @excluded_directories = options.fetch(:exclude, [])
       @excluded_directories.collect! {|item| item.strip}
+
+      if !@project_path.match(/\.xcodeproj{1}/)
+        @project_path += '.xcodeproj'
+      end
       
       @project = Xcodeproj::Project.open @project_path
     end
 
     def begin
-      ensure_inclusion
-    end
-
-    def ensure_inclusion
       names = source_names + resource_names
       names = names.map {|n| n.sub(/.*\/+/, "") }
       files = project_files
