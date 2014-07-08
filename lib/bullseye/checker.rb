@@ -34,9 +34,9 @@ module Bullseye
       if /\/\w/ =~ @project_path
         path_name = @project_path.gsub /(\w*\.\w*)$/, ''
       else
-        path_name = '/'
+        path_name = './'
       end
-      
+
       Find.find(path_name) do |path|
         @excluded_directories.each do |dir|
           if path.to_s.include? dir
