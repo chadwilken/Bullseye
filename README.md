@@ -1,6 +1,6 @@
 # Bullseye
 
-Bullseye helps you catch missing files in a specific Targer of your XCode Project. Don't let your app get to the store again with missing sources.
+Bullseye helps you catch missing files in a specific Targert of your XCode Project. Don't let your app get to the store again with missing sources.
 
 ## Installation
 
