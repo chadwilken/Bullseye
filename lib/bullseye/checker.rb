@@ -8,10 +8,10 @@ module Bullseye
     def initialize(options = {})
       @target_name = options.fetch(:target)
       @project_path = options.fetch(:project)
+      @project_path = @project_path.gsub /\/$/, ''
       @excluded_directories = options.fetch(:exclude, [])
       @excluded_directories.collect! {|item| item.strip}
-      @project_path = @project_path.gsub /\/$/, ''
-
+      
       @project = Xcodeproj::Project.open @project_path
     end
 
@@ -31,8 +31,12 @@ module Bullseye
     def project_files
       file_names = []
 
-      path_name = @project_path.gsub /(\w*\.\w*)$/, ''
-
+      if /\/\w/ =~ @project_path
+        path_name = @project_path.gsub /(\w*\.\w*)$/, ''
+      else
+        path_name = '/'
+      end
+      
       Find.find(path_name) do |path|
         @excluded_directories.each do |dir|
           if path.to_s.include? dir
