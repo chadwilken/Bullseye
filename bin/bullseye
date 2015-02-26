@@ -41,6 +41,10 @@ module Bullseye
     opts.on('-e', '--exclude [PATHS]', 'Excludes the specified paths from the search') do |paths|
       options[:exclude] = paths.split(',')
     end
+
+    opts.on('-i', '--include [PATHS]', 'Includes the specified paths in the search') do |paths|
+      options[:include] = paths.split(',')
+    end
   end
 
   optparse.parse!

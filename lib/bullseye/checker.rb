@@ -5,17 +5,24 @@ module Bullseye
   class Checker
     include Xcodeproj::Project::Object
 
+    ROOT_PATH = './'.freeze
+
     def initialize(options = {})
       @target_name = options.fetch(:target)
+
       @project_path = options.fetch(:project)
       @project_path = @project_path.gsub /\/$/, ''
+
       @excluded_directories = options.fetch(:exclude, [])
       @excluded_directories.collect! {|item| item.strip}
+
+      @included_directories = options.fetch(:include, [])
+      @included_directories.collect! {|item| item.strip}
 
       if !@project_path.match(/\.xcodeproj{1}/)
         @project_path += '.xcodeproj'
       end
-      
+
       @project = Xcodeproj::Project.open @project_path
     end
 
@@ -34,7 +41,7 @@ module Bullseye
       if /\/\w/ =~ @project_path
         path_name = @project_path.gsub /(\w*\.\w*)$/, ''
       else
-        path_name = './'
+        path_name = ROOT_PATH
       end
 
       Find.find(path_name) do |path|
@@ -43,8 +50,14 @@ module Bullseye
             Find.prune
           end
         end
-        file_names << strip_path_from_name(path) if path =~ /.*\.[xib|storyboard|m]$/
+
+        unless @included_directories.any? {|dir| path == ROOT_PATH || path.include?(dir)}
+          Find.prune
+        end
+
+        file_names << strip_path_from_name(path) if path =~ /.*\.(xib|storyboard|m|swift)$/
       end
+
       file_names
     end
 
@@ -54,10 +67,8 @@ module Bullseye
 
     def resource_names
       names = target.resources_build_phase.files_references
-      names.keep_if { |file| file.kind_of?(PBXFileReference) && !file.path.nil? && file.path =~ /[a-zA-Z0-9\-\_\~\/]*\.*[m|xib|storyboard]$/ }
-      files = []
-      names.each { |n| files << strip_path_from_name("#{n.path}") }
-      files
+      names.keep_if { |file| file.kind_of?(PBXFileReference) && !file.path.nil? && file.path =~ /[a-zA-Z0-9\-\_\~\/]*\.*(m|xib|storyboard|swift)$/ }
+      names.map { |n| strip_path_from_name("#{n.path}") }
     end
 
     def source_names
@@ -65,9 +76,8 @@ module Bullseye
       references.keep_if do |r|
         r.kind_of?(PBXFileReference) && !r.path.nil?
       end
-      files = []
-      references.each { |r| files << strip_path_from_name("#{r.path}") }
-      files
+
+      references.map { |r| strip_path_from_name("#{r.path}") }
     end
 
     private

@@ -16,7 +16,8 @@ bullseye -p ~/Example.xcodeproj -t ExampleTarget -e "Pods,KIF,etc"
 flags:
  -p, --project The path to the project
  -t, --target The name of the XCode Target you want to ensure all files are included in
- -e, --exclude Option list of directory names that you do not want to include when scanning the system for files
+ -e, --exclude Optional list of directory names that you **do not** want to include when scanning the system for files
+ -i, --include **Only** uses the specified directories to check for files that should exist in the target
 ```
 
 ## TODO
